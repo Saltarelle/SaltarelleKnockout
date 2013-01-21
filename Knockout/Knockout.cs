@@ -79,21 +79,9 @@ namespace KnockoutApi {
         /// <summary>
         /// Set up bindings on a single node without binding any of its descendents.
         /// </summary>
-        /// <param name="node">The node to bind to.</param>
-        /// <param name="bindings">An optional dictionary of bindings, pass null to let Knockout gather them from the element.</param>
-        /// <param name="viewModel">The view model instance.</param>
-        /// <param name="bindingAttributeName">The name of the attribute which has the binding definitions.</param>
-        public static void ApplyBindingsToNode(Element node, JsDictionary bindings, object viewModel, string bindingAttributeName) {
-        }
-
-        /// <summary>
-        /// Set up bindings on a single node without binding any of its descendents.
-        /// </summary>
         /// <param name="rootNode">The root node to bind to.</param>
-        /// <param name="bindings">An optional dictionary of bindings, pass null to let Knockout gather them from the element.</param>
         /// <param name="viewModel">The view model instance.</param>
-        /// <param name="bindingAttributeName">The name of the attribute which has the binding definitions.</param>
-        public static void ApplyBindingsToDescendants(Element rootNode, JsDictionary bindings, object viewModel, string bindingAttributeName) {
+        public static void ApplyBindingsToDescendants(object viewModel, Element rootNode) {
         }
 
         /// <summary>
