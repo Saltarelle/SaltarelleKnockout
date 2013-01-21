@@ -31,19 +31,79 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.30\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.30\lib\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.30\lib\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="CoreLib.Plugin">
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.30\lib\CoreLib.Plugin.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory">
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.30\lib\ICSharpCode.NRefactory.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory.CSharp">
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.30\lib\ICSharpCode.NRefactory.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="JavaScriptParser">
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.30\lib\JavaScriptParser.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.30\lib\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Saltarelle.Compiler">
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.30\lib\Saltarelle.Compiler.dll</HintPath>
+    </Reference>
+    <Reference Include="Saltarelle.Compiler.JSModel">
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.30\lib\Saltarelle.Compiler.JSModel.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="JSTypeSystemRewriterTests.cs" />
+    <Compile Include="Files.cs" />
+    <Compile Include="MetadataImporterTests.cs" />
+    <Compile Include="MockErrorReporter.cs" />
+    <Compile Include="MockSourceFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Knockout.Plugin\Knockout.Plugin.csproj">
+      <Project>{014ec28e-64b6-4f64-99c6-16f1b0447278}</Project>
+      <Name>Knockout.Plugin</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Knockout\bin\mscorlib.dll">
+      <Link>mscorlib.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Knockout\bin\Saltarelle.Knockout.dll">
+      <Link>Saltarelle.Knockout.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Knockout\bin\Saltarelle.Web.dll">
+      <Link>Saltarelle.Web.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
