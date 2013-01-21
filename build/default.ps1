@@ -7,6 +7,7 @@ properties {
 	$configuration = "Debug"
 	$releaseTagPattern = "release-(.*)"
 	$autoVersion = $true
+	$skipTests = $false
 }
 
 Function Get-DotNetVersion($RawVersion) {
@@ -31,7 +32,14 @@ Task Build-Solution -Depends Clean, Generate-VersionInfo {
 	Exec { msbuild "$baseDir\Knockout.sln" /verbosity:minimal /p:"Configuration=$configuration" }
 }
 
-Task Build-NuGetPackages -Depends Determine-Version, Build-Solution {
+Task Run-Tests -Depends Build-Solution {
+	if (-not $skipTests) {
+		$runner = (dir "$baseDir\packages" -Recurse -Filter nunit-console.exe | Select -ExpandProperty FullName)
+		Exec { & "$runner" "$baseDir\Knockout.Tests\Knockout.Tests.csproj" -nologo -xml "$outDir\TestResults.xml" }
+	}
+}
+
+Task Build-NuGetPackages -Depends Determine-Version, Run-Tests {
 	$config = [xml](Get-Content $baseDir\Knockout\packages.config)
 	$runtimeVersion = $config.SelectSingleNode("//package[@id='Saltarelle.Runtime']/@version").Value
 	$webVersion = $config.SelectSingleNode("//package[@id='Saltarelle.Web']/@version").Value
