@@ -33,12 +33,12 @@ namespace Knockout.Tests {
 			_compilation = pc.Compilation;
 
 			_errorReporter = new MockErrorReporter(!expectErrors);
-			prev = prev ?? new CoreLib.Plugin.MetadataImporter(_errorReporter);
-			runtimeLibrary = runtimeLibrary ?? new CoreLib.Plugin.RuntimeLibrary(prev, _errorReporter, new Mock<INamer>().Object, _compilation);
+			prev = prev ?? new CoreLib.Plugin.MetadataImporter(_errorReporter, _compilation, new CompilerOptions());
+			runtimeLibrary = runtimeLibrary ?? new CoreLib.Plugin.RuntimeLibrary(prev, _errorReporter, _compilation);
 
-			_metadata = new MetadataImporter(prev, _errorReporter, runtimeLibrary);
+			_metadata = new MetadataImporter(prev, _errorReporter, runtimeLibrary, new Mock<INamer>().Object, new CompilerOptions());
 
-			_metadata.Prepare(_compilation.GetAllTypeDefinitions(), false, _compilation.MainAssembly);
+			_metadata.Prepare(_compilation.GetAllTypeDefinitions());
 
 			_allErrors = _errorReporter.AllMessages.ToList().AsReadOnly();
 			if (expectErrors) {

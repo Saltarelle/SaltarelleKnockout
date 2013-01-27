@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CoreLib.Plugin;
 using ICSharpCode.NRefactory.TypeSystem;
 using KnockoutApi;
 using Saltarelle.Compiler;
+using Saltarelle.Compiler.Compiler;
 using Saltarelle.Compiler.Decorators;
 using Saltarelle.Compiler.JSModel.Expressions;
 using Saltarelle.Compiler.JSModel.Statements;
@@ -13,14 +16,19 @@ using Saltarelle.Compiler.JSModel.TypeSystem;
 using Saltarelle.Compiler.ScriptSemantics;
 
 namespace Knockout.Plugin {
-    public class MetadataImporter : MetadataImporterDecoratorBase, IJSTypeSystemRewriter {
-	    private readonly IErrorReporter _errorReporter;
+	public class MetadataImporter : MetadataImporterDecoratorBase, IJSTypeSystemRewriter {
+		private readonly IErrorReporter _errorReporter;
 		private readonly IRuntimeLibrary _runtimeLibrary;
+		private readonly INamer _namer;
+		private readonly bool _minimizeNames;
+		private readonly Dictionary<IProperty, string> _knockoutProperties = new Dictionary<IProperty, string>();
 
-	    public MetadataImporter(IMetadataImporter prev, IErrorReporter errorReporter, IRuntimeLibrary runtimeLibrary) : base(prev) {
-		    _errorReporter  = errorReporter;
+		public MetadataImporter(IMetadataImporter prev, IErrorReporter errorReporter, IRuntimeLibrary runtimeLibrary, INamer namer, CompilerOptions options) : base(prev) {
+			_errorReporter  = errorReporter;
 			_runtimeLibrary = runtimeLibrary;
-	    }
+			_namer          = namer;
+			_minimizeNames  = options.MinimizeScript;
+		}
 
 		private bool IsKnockoutProperty(IProperty property) {
 			var propAttr = AttributeReader.ReadAttribute<KnockoutPropertyAttribute>(property);
@@ -28,28 +36,6 @@ namespace Knockout.Plugin {
 				return propAttr.IsKnockoutProperty;
 			return AttributeReader.HasAttribute<KnockoutModelAttribute>(property.DeclaringTypeDefinition);
 		}
-
-		private string GetPropertyName(PropertyScriptSemantics result) {
-			string fromGetter = null, fromSetter = null;
-			if (result.GetMethod != null) {
-				if (result.GetMethod.Type == MethodScriptSemantics.ImplType.NormalMethod && result.GetMethod.Name.StartsWith("get_"))
-					fromGetter = result.GetMethod.Name.Substring(4);
-				else
-					return null;
-			}
-			if (result.SetMethod != null) {
-				if (result.SetMethod.Type == MethodScriptSemantics.ImplType.NormalMethod && result.SetMethod.Name.StartsWith("set_"))
-					fromSetter = result.SetMethod.Name.Substring(4);
-				else
-					return null;
-			}
-			if (fromGetter != null && fromSetter != null && fromGetter != fromSetter)
-				return null;
-			return fromGetter ?? fromSetter;
-		}
-
-		private Dictionary<IProperty, PropertyScriptSemantics> _propertyCache;
-		private Dictionary<IProperty, string> _knockoutProperties;
 
 		private void PrepareKnockoutProperty(IProperty p) {
 			if (p.IsStatic) {
@@ -63,22 +49,11 @@ namespace Knockout.Plugin {
 				_errorReporter.Message(MessageSeverity.Error, 8001, "The property {0} cannot be a knockout property because it is not an auto-property", p.FullName);
 			}
 			else {
-				var orig = base.GetPropertySemantics(p);
-				if (orig.Type == PropertyScriptSemantics.ImplType.GetAndSetMethods) {
-					string name = GetPropertyName(orig);
-					if (name != null) {
-						_propertyCache[p] = PropertyScriptSemantics.GetAndSetMethods(MethodScriptSemantics.InlineCode("{this}." + name + "()"), MethodScriptSemantics.InlineCode("{this}." + name + "({value})"));
-						_knockoutProperties[p] = name;
-					}
-					else {
-						_errorReporter.Region = p.Region;
-						_errorReporter.Message(MessageSeverity.Error, 8001, "Unable to determine the name for the knockout property {0}. Knockout property methods do not support some other interop attributes", p.FullName);
-					}
-				}
-				else {
-					_errorReporter.Region = p.Region;
-					_errorReporter.Message(MessageSeverity.Error, 8001, "Unable to determine the name for the knockout property {0}. Knockout property methods do not support some other interop attributes", p.FullName);
-				}
+				var preferredName = MetadataUtils.DeterminePreferredMemberName(p, _minimizeNames);
+				string name = preferredName.Item2 ? preferredName.Item1 : MetadataUtils.GetUniqueName(preferredName.Item1, n => IsMemberNameAvailable(p.DeclaringTypeDefinition, n, false));
+				base.ReserveMemberName(p.DeclaringTypeDefinition, name, false);
+				base.SetPropertySemantics(p, PropertyScriptSemantics.GetAndSetMethods(MethodScriptSemantics.InlineCode("{this}." + name + "()"), MethodScriptSemantics.InlineCode("{this}." + name + "({value})")));
+				_knockoutProperties[p] = name;
 			}
 		}
 
@@ -88,23 +63,12 @@ namespace Knockout.Plugin {
 			return property.Getter != null && property.Setter != null && property.Getter.BodyRegion == default(DomRegion) && property.Setter.BodyRegion == default(DomRegion);
 		}
 
-		public override void Prepare(IEnumerable<ITypeDefinition> allTypes, bool minimizeNames, IAssembly mainAssembly) {
-			var allTypesList = allTypes.ToList();
-			base.Prepare(allTypesList, minimizeNames, mainAssembly);
-
-			_propertyCache = new Dictionary<IProperty, PropertyScriptSemantics>();
-			_knockoutProperties = new Dictionary<IProperty, string>();
-
-			foreach (var p in allTypesList.SelectMany(t => t.Properties).Where(IsKnockoutProperty)) {
+		public override void Prepare(ITypeDefinition type) {
+			foreach (var p in type.Properties.Where(IsKnockoutProperty)) {
 				PrepareKnockoutProperty(p);
 			}
-		}
 
-	    public override PropertyScriptSemantics GetPropertySemantics(IProperty property) {
-			PropertyScriptSemantics result;
-			if (_propertyCache.TryGetValue(property, out result))
-				return result;
-			return base.GetPropertySemantics(property);
+			base.Prepare(type);
 		}
 
 		// Implementation and helpers for IJSTypeSystemRewriter
@@ -146,7 +110,7 @@ namespace Knockout.Plugin {
 			                                                              JsExpression.Member(
 			                                                                  JsExpression.Identifier("ko"),
 			                                                                  "observable"),
-			                                                              _runtimeLibrary.Default(p.ReturnType)))))
+			                                                              _runtimeLibrary.Default(p.ReturnType, tp => JsExpression.Identifier(_namer.GetTypeParameterName(tp)))))))
 			                                     .ToList();
 
 			var result = c.Clone();
@@ -164,5 +128,5 @@ namespace Knockout.Plugin {
 		public IEnumerable<JsType> Rewrite(IEnumerable<JsType> types) {
 			return types.Select(InitializeKnockoutProperties);
 		}
-    }
+	}
 }

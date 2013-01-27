@@ -26,6 +26,7 @@ namespace KnockoutApi {
         /// <param name="allBindingsAccessor">A function which returns all the model properties bound to this element.</param>
         /// <param name="viewModel">The view model instance involved in this binding.</param>
         public virtual object Init(Element element, Func<object> valueAccessor, Func<JsDictionary> allBindingsAccessor, object viewModel) {
+            return null;
         }
 
         /// <summary>
