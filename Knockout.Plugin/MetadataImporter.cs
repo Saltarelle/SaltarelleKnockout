@@ -52,7 +52,7 @@ namespace Knockout.Plugin {
 				var preferredName = MetadataUtils.DeterminePreferredMemberName(p, _minimizeNames);
 				string name = preferredName.Item2 ? preferredName.Item1 : MetadataUtils.GetUniqueName(preferredName.Item1, n => IsMemberNameAvailable(p.DeclaringTypeDefinition, n, false));
 				base.ReserveMemberName(p.DeclaringTypeDefinition, name, false);
-				base.SetPropertySemantics(p, PropertyScriptSemantics.GetAndSetMethods(MethodScriptSemantics.InlineCode("{this}." + name + "()"), MethodScriptSemantics.InlineCode("{this}." + name + "({value})")));
+				base.SetPropertySemantics(p, PropertyScriptSemantics.GetAndSetMethods(MethodScriptSemantics.NormalMethod(name, generateCode: false), MethodScriptSemantics.NormalMethod(name, generateCode: false)));
 				_knockoutProperties[p] = name;
 			}
 		}

@@ -73,17 +73,19 @@ public class C {
 
 			var p1 = FindProperty("P1");
 			Assert.That(p1.Type, Is.EqualTo(PropertyScriptSemantics.ImplType.GetAndSetMethods));
-			Assert.That(p1.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p1.GetMethod.LiteralCode, Is.EqualTo("{this}.p1()"));
-			Assert.That(p1.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p1.SetMethod.LiteralCode, Is.EqualTo("{this}.p1({value})"));
+			Assert.That(p1.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p1.GetMethod.Name, Is.EqualTo("p1"));
+			Assert.That(p1.GetMethod.GeneratedMethodName, Is.Null);
+			Assert.That(p1.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p1.SetMethod.Name, Is.EqualTo("p1"));
+			Assert.That(p1.SetMethod.GeneratedMethodName, Is.Null);
 
 			var p2 = FindProperty("P2");
 			Assert.That(p2.Type, Is.EqualTo(PropertyScriptSemantics.ImplType.GetAndSetMethods));
-			Assert.That(p2.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p2.GetMethod.LiteralCode, Is.EqualTo("{this}.p2()"));
-			Assert.That(p2.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p2.SetMethod.LiteralCode, Is.EqualTo("{this}.p2({value})"));
+			Assert.That(p2.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p2.GetMethod.Name, Is.EqualTo("p2"));
+			Assert.That(p2.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p2.SetMethod.Name, Is.EqualTo("p2"));
 
 			var p3 = FindProperty("P3");
 			Assert.That(p3.Type, Is.EqualTo(PropertyScriptSemantics.ImplType.GetAndSetMethods));
@@ -114,24 +116,24 @@ public class C {
 
 			var p1 = FindProperty("P1");
 			Assert.That(p1.Type, Is.EqualTo(PropertyScriptSemantics.ImplType.GetAndSetMethods));
-			Assert.That(p1.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p1.GetMethod.LiteralCode, Is.EqualTo("{this}.p1()"));
-			Assert.That(p1.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p1.SetMethod.LiteralCode, Is.EqualTo("{this}.p1({value})"));
+			Assert.That(p1.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p1.GetMethod.Name, Is.EqualTo("p1"));
+			Assert.That(p1.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p1.SetMethod.Name, Is.EqualTo("p1"));
 
 			var p2 = FindProperty("P2");
 			Assert.That(p2.Type, Is.EqualTo(PropertyScriptSemantics.ImplType.GetAndSetMethods));
-			Assert.That(p2.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p2.GetMethod.LiteralCode, Is.EqualTo("{this}.p2()"));
-			Assert.That(p2.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p2.SetMethod.LiteralCode, Is.EqualTo("{this}.p2({value})"));
+			Assert.That(p2.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p2.GetMethod.Name, Is.EqualTo("p2"));
+			Assert.That(p2.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p2.SetMethod.Name, Is.EqualTo("p2"));
 
 			var p3 = FindProperty("P3");
 			Assert.That(p3.Type, Is.EqualTo(PropertyScriptSemantics.ImplType.GetAndSetMethods));
-			Assert.That(p3.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p3.GetMethod.LiteralCode, Is.EqualTo("{this}.p3()"));
-			Assert.That(p3.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p3.SetMethod.LiteralCode, Is.EqualTo("{this}.p3({value})"));
+			Assert.That(p3.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p3.GetMethod.Name, Is.EqualTo("p3"));
+			Assert.That(p3.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p3.SetMethod.Name, Is.EqualTo("p3"));
 
 			var p4 = FindProperty("P4");
 			Assert.That(p4.Type, Is.EqualTo(PropertyScriptSemantics.ImplType.GetAndSetMethods));
@@ -215,10 +217,10 @@ public class C {
 
 			var p1 = FindProperty("P1");
 			Assert.That(p1.Type, Is.EqualTo(PropertyScriptSemantics.ImplType.GetAndSetMethods));
-			Assert.That(p1.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p1.GetMethod.LiteralCode, Is.EqualTo("{this}.renamed()"));
-			Assert.That(p1.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p1.SetMethod.LiteralCode, Is.EqualTo("{this}.renamed({value})"));
+			Assert.That(p1.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p1.GetMethod.Name, Is.EqualTo("renamed"));
+			Assert.That(p1.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p1.SetMethod.Name, Is.EqualTo("renamed"));
 		}
 
 		[Test]
@@ -233,10 +235,10 @@ public class C {
 
 			var p1 = FindProperty("P1");
 			Assert.That(p1.Type, Is.EqualTo(PropertyScriptSemantics.ImplType.GetAndSetMethods));
-			Assert.That(p1.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p1.GetMethod.LiteralCode, Is.EqualTo("{this}.renamed()"));
-			Assert.That(p1.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p1.SetMethod.LiteralCode, Is.EqualTo("{this}.renamed({value})"));
+			Assert.That(p1.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p1.GetMethod.Name, Is.EqualTo("renamed"));
+			Assert.That(p1.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p1.SetMethod.Name, Is.EqualTo("renamed"));
 
 			var m = FindMethod("Renamed");
 			Assert.That(m.Name, Is.EqualTo("renamed$1"));
@@ -256,10 +258,10 @@ public class C : B{
 
 			var p1 = FindProperty("TheName");
 			Assert.That(p1.Type, Is.EqualTo(PropertyScriptSemantics.ImplType.GetAndSetMethods));
-			Assert.That(p1.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p1.GetMethod.LiteralCode, Is.EqualTo("{this}.theName$1()"));
-			Assert.That(p1.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p1.SetMethod.LiteralCode, Is.EqualTo("{this}.theName$1({value})"));
+			Assert.That(p1.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p1.GetMethod.Name, Is.EqualTo("theName$1"));
+			Assert.That(p1.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p1.SetMethod.Name, Is.EqualTo("theName$1"));
 		}
 
 		[Test]
@@ -273,10 +275,10 @@ public class C {
 
 			var p1 = FindProperty("P1");
 			Assert.That(p1.Type, Is.EqualTo(PropertyScriptSemantics.ImplType.GetAndSetMethods));
-			Assert.That(p1.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p1.GetMethod.LiteralCode, Is.EqualTo("{this}.$0()"));
-			Assert.That(p1.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.InlineCode));
-			Assert.That(p1.SetMethod.LiteralCode, Is.EqualTo("{this}.$0({value})"));
+			Assert.That(p1.GetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p1.GetMethod.Name, Is.EqualTo("$0"));
+			Assert.That(p1.SetMethod.Type, Is.EqualTo(MethodScriptSemantics.ImplType.NormalMethod));
+			Assert.That(p1.SetMethod.Name, Is.EqualTo("$0"));
 		}
 	}
 }
