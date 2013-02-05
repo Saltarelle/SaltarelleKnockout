@@ -73,24 +73,24 @@
     <Content Include="knockout-2.2.0.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="mscorlib">
-      <HintPath>$(SolutionDir)packages\Saltarelle.Runtime.1.7.1.62\tools\Assemblies\mscorlib.dll</HintPath>
-    </Reference>
-    <Reference Include="Saltarelle.Web, Version=0.0.0.0, Culture=neutral, PublicKeyToken=a4048e8fcc593f14, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Saltarelle.Web.0.0.0.12\lib\Saltarelle.Web.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Knockout.Plugin\Knockout.Plugin.csproj">
       <Project>{014ec28e-64b6-4f64-99c6-16f1b0447278}</Project>
       <Name>Knockout.Plugin</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" Condition="!Exists('$(SolutionDir)packages\Saltarelle.Compiler.1.7.1.42\tools\Saltarelle.Compiler.targets')" />
-  <Import Project="$(SolutionDir)packages\Saltarelle.Compiler.1.7.1.42\tools\Saltarelle.Compiler.targets" Condition="Exists('$(SolutionDir)packages\Saltarelle.Compiler.1.7.1.42\tools\Saltarelle.Compiler.targets')" />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib">
+      <HintPath>$(SolutionDir)packages\Saltarelle.Runtime.2.0.0\tools\Assemblies\mscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="Saltarelle.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=a4048e8fcc593f14, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Saltarelle.Web.2.0.0\lib\Saltarelle.Web.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" Condition="!Exists('$(SolutionDir)packages\Saltarelle.Compiler.2.0.0\tools\Saltarelle.Compiler.targets')" />
+  <Import Project="$(SolutionDir)packages\Saltarelle.Compiler.2.0.0\tools\Saltarelle.Compiler.targets" Condition="Exists('$(SolutionDir)packages\Saltarelle.Compiler.2.0.0\tools\Saltarelle.Compiler.targets')" />
 </Project>

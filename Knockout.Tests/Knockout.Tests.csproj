@@ -31,29 +31,37 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime">
-      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.80\lib\Antlr3.Runtime.dll</HintPath>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.2.0.0\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Core">
-      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.80\lib\Castle.Core.dll</HintPath>
+    <Reference Include="Castle.Core, Version=3.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.2.0.0\lib\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Windsor">
-      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.80\lib\Castle.Windsor.dll</HintPath>
+    <Reference Include="Castle.Windsor, Version=3.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.2.0.0\lib\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="CoreLib.Plugin">
-      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.80\lib\CoreLib.Plugin.dll</HintPath>
+    <Reference Include="CoreLib.Plugin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.2.0.0\lib\CoreLib.Plugin.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.NRefactory">
-      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.80\lib\ICSharpCode.NRefactory.dll</HintPath>
+    <Reference Include="ICSharpCode.NRefactory, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.2.0.0\lib\ICSharpCode.NRefactory.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.NRefactory.CSharp">
-      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.80\lib\ICSharpCode.NRefactory.CSharp.dll</HintPath>
+    <Reference Include="ICSharpCode.NRefactory.CSharp, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.2.0.0\lib\ICSharpCode.NRefactory.CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="JavaScriptParser">
-      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.80\lib\JavaScriptParser.dll</HintPath>
+    <Reference Include="JavaScriptParser, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.2.0.0\lib\JavaScriptParser.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cecil">
-      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.80\lib\Mono.Cecil.dll</HintPath>
+    <Reference Include="Mono.Cecil, Version=0.9.5.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.2.0.0\lib\Mono.Cecil.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
@@ -61,11 +69,13 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Saltarelle.Compiler">
-      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.80\lib\Saltarelle.Compiler.dll</HintPath>
+    <Reference Include="Saltarelle.Compiler, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.2.0.0\lib\Saltarelle.Compiler.dll</HintPath>
     </Reference>
-    <Reference Include="Saltarelle.Compiler.JSModel">
-      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.1.7.1.80\lib\Saltarelle.Compiler.JSModel.dll</HintPath>
+    <Reference Include="Saltarelle.Compiler.JSModel, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Saltarelle.Compiler.ExtensibilityDevelopment.2.0.0\lib\Saltarelle.Compiler.JSModel.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
