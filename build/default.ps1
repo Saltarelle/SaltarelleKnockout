@@ -62,6 +62,7 @@ Task Build-NuGetPackages -Depends Determine-Version, Run-Tests {
 	</metadata>
 	<files>
 		<file src="$baseDir\License.txt" target=""/>
+		<file src="$baseDir\history.txt" target=""/>
 		<file src="$baseDir\Knockout\bin\Saltarelle.Knockout.dll" target="lib"/>
 		<file src="$baseDir\Knockout\bin\Saltarelle.Knockout.xml" target="lib"/>
 		<file src="$baseDir\Knockout\knockout*.js" target=""/>
