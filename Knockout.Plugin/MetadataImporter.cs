@@ -16,7 +16,7 @@ using Saltarelle.Compiler.JSModel.TypeSystem;
 using Saltarelle.Compiler.ScriptSemantics;
 
 namespace Knockout.Plugin {
-	public class MetadataImporter : MetadataImporterDecoratorBase, IJSTypeSystemRewriter {
+	public class MetadataImporter : MetadataImporterDecoratorBase, IJSTypeSystemRewriter, IRuntimeContext {
 		private readonly IErrorReporter _errorReporter;
 		private readonly IRuntimeLibrary _runtimeLibrary;
 		private readonly INamer _namer;
@@ -110,7 +110,7 @@ namespace Knockout.Plugin {
 			                                                              JsExpression.Member(
 			                                                                  JsExpression.Identifier("ko"),
 			                                                                  "observable"),
-			                                                              _runtimeLibrary.Default(p.ReturnType, tp => JsExpression.Identifier(_namer.GetTypeParameterName(tp)))))))
+			                                                              _runtimeLibrary.Default(p.ReturnType, this)))))
 			                                     .ToList();
 
 			var result = c.Clone();
@@ -127,6 +127,14 @@ namespace Knockout.Plugin {
 
 		public IEnumerable<JsType> Rewrite(IEnumerable<JsType> types) {
 			return types.Select(InitializeKnockoutProperties);
+		}
+
+		public JsExpression ResolveTypeParameter(ITypeParameter tp) {
+			return JsExpression.Identifier(_namer.GetTypeParameterName(tp));
+		}
+
+		public JsExpression EnsureCanBeEvaluatedMultipleTimes(JsExpression expression, IList<JsExpression> expressionsThatMustBeEvaluatedBefore) {
+			throw new NotSupportedException();
 		}
 	}
 }
