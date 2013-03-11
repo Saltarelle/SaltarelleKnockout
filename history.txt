@@ -1,2 +1,5 @@
+2.2.1
+Work with compiler 2.1.0
+
 2.2.0
 Initial version with knockout 2.2.0

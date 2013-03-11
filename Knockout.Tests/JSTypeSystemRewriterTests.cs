@@ -4,10 +4,10 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using CoreLib.Plugin;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.CSharp.TypeSystem;
 using ICSharpCode.NRefactory.TypeSystem;
-using Knockout.Plugin;
 using Moq;
 using NUnit.Framework;
 using Saltarelle.Compiler;
@@ -15,6 +15,7 @@ using Saltarelle.Compiler.Compiler;
 using Saltarelle.Compiler.JSModel;
 using Saltarelle.Compiler.JSModel.TypeSystem;
 using Saltarelle.Compiler.ScriptSemantics;
+using MetadataImporter = Knockout.Plugin.MetadataImporter;
 
 namespace Knockout.Tests {
 	[TestFixture]
@@ -34,7 +35,8 @@ namespace Knockout.Tests {
 
 			_errorReporter = new MockErrorReporter(!expectErrors);
 			prev = prev ?? new CoreLib.Plugin.MetadataImporter(_errorReporter, _compilation, new CompilerOptions());
-			runtimeLibrary = runtimeLibrary ?? new CoreLib.Plugin.RuntimeLibrary(prev, _errorReporter, _compilation);
+			var namer = new Namer();
+			runtimeLibrary = runtimeLibrary ?? new CoreLib.Plugin.RuntimeLibrary(prev, _errorReporter, _compilation, namer);
 
 			_metadata = new MetadataImporter(prev, _errorReporter, runtimeLibrary, new Mock<INamer>().Object, new CompilerOptions());
 
@@ -48,7 +50,7 @@ namespace Knockout.Tests {
 				Assert.That(_allErrors, Is.Empty, "Compile should not generate errors");
 			}
 
-			var c = new Compiler(_metadata, new DefaultNamer(), runtimeLibrary, _errorReporter);
+			var c = new Compiler(_metadata, namer, runtimeLibrary, _errorReporter);
 
 			var types = ((IJSTypeSystemRewriter)_metadata).Rewrite(c.Compile(pc)).OfType<JsClass>().ToList();
 			return types.Single(t => t.CSharpTypeDefinition.Name == "C");
