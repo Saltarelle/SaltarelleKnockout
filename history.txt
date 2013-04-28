@@ -1,3 +1,5 @@
+Fixed problem causing the attributes to not work
+
 2.2.1
 Work with compiler 2.1.0
 
