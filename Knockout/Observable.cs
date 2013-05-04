@@ -15,10 +15,22 @@ namespace KnockoutApi {
     [Imported]
     [IgnoreNamespace]
     public class Observable<T> : Subscribable<T> {
-
-        internal Observable() {
+        
+        /// <summary>
+        /// Creates an observable value.
+        /// </summary>                
+        [InlineCode("ko.observable()")]
+        public Observable() {
         }
 
+        /// <summary>
+        /// Creates an observable value.
+        /// </summary>        
+        /// <param name="initialValue">The initial value.</param>        
+        [InlineCode("ko.observable({initialValue})")]
+        public Observable(T initialValue) {
+        }
+        
         /// <summary>
         /// Gets the current value within the observable object.
         /// </summary>
