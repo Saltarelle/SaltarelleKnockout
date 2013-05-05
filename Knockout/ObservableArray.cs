@@ -31,6 +31,22 @@ namespace KnockoutApi {
         /// </summary>
         /// <param name="initialItems">A sequence of initial items.</param>        
         [InlineCode("ko.observableArray({initialItems})")]
+        public ObservableArray(T[] initialItems) {
+        }
+
+        /// <summary>
+        /// Creates an observable array with some initial items.
+        /// </summary>
+        /// <param name="initialItems">A sequence of initial items.</param>        
+        [InlineCode("ko.observableArray({initialItems})")]
+        public ObservableArray(List<T> initialItems) {
+        }
+
+        /// <summary>
+        /// Creates an observable array with some initial items.
+        /// </summary>
+        /// <param name="initialItems">A sequence of initial items.</param>        
+        [InlineCode("ko.observableArray({$System.Script}.arrayFromEnumerable({initialItems}))")]
         public ObservableArray(IEnumerable<T> initialItems) {
         }
 
