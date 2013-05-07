@@ -62,6 +62,13 @@ namespace KnockoutApi {
         }
 
         /// <summary>
+        /// Returns the current value of the observable without creating a dependency
+        /// </summary>
+        public T Peek() {
+            return default(T);
+        }
+
+        /// <summary>
         /// Notifies All Subscribers that the Value has Changed
         /// Called internally with SetValue
         /// </summary>
