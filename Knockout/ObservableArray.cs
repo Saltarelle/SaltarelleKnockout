@@ -196,6 +196,15 @@ namespace KnockoutApi {
         }
 
         /// <summary>
+        /// Native Javascript Splice Function
+        /// Modifies the Existing Sequence
+        /// </summary>
+        /// <param name="index">Required. An integer that specifies at what position to add/remove elements</param>
+        /// <param name="howmany">Required. The number of elements to be removed. If set to 0, no elements will be removed</param>
+        public void Splice(int index, int howmany) {
+        }
+
+        /// <summary>
         /// Returns elements from start index to the end of the array.
         /// </summary>
         /// <param name="start">Starting point of the sequence, if negative then it starts from the end.</param>
