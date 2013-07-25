@@ -1,3 +1,4 @@
+Added mapping options (#3, #4)
 Added ObservableArray.Splice without array argument
 Added constructors for Observable, ComputedObservable and ObservableArray (these contructors will call the appropriate ko.xx methods)
 

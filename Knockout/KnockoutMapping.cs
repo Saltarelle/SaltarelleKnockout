@@ -19,6 +19,10 @@ namespace KnockoutApi {
         private KnockoutMapping() {
         }
 
+        public void ResetDefaultOptions() { }
+
+        public MappingOptions DefaultOptions { [ScriptName("defaultOptions")] get { return null; } }
+
         /// <summary>
         /// Creates a model instance from the specified JSON string.
         /// </summary>
@@ -98,6 +102,28 @@ namespace KnockoutApi {
         /// <returns>The unwrapped view model</returns>
         [ScriptName("toJS")]
         public T ModelToObject<T>(object model) {
+            return default(T);
+        }
+
+        /// <summary>
+        /// Unwraps the given view model
+        /// </summary>
+        /// <param name="model">The model to unwrap</param>
+        /// <param name="options">Mapping options</param>
+        /// <returns>The unwrapped view model</returns>
+        [ScriptName("toJS")]
+        public object ModelToObject(object model, MappingOptions options) {
+            return null;
+        }
+
+        /// <summary>
+        /// Unwraps the given view model
+        /// </summary>
+        /// <param name="model">The model to unwrap</param>
+        /// <param name="options">Mapping options</param>
+        /// <returns>The unwrapped view model</returns>
+        [ScriptName("toJS")]
+        public T ModelToObject<T>(object model, MappingOptions options) {
             return default(T);
         }
 
