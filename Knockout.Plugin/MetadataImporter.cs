@@ -89,7 +89,7 @@ namespace Knockout.Plugin {
 				}
 			}
 
-			return JsExpression.FunctionDefinition(orig.ParameterNames, new JsBlockStatement(initializers.Concat(orig.Body.Statements)), orig.Name);
+			return JsExpression.FunctionDefinition(orig.ParameterNames, JsStatement.Block(initializers.Concat(orig.Body.Statements)), orig.Name);
 		}
 
 		private JsType InitializeKnockoutProperties(JsType type) {
@@ -101,16 +101,15 @@ namespace Knockout.Plugin {
 			if (knockoutProperties.Count == 0)
 				return type;
 
-			var initializers = knockoutProperties.Select(p => new JsExpressionStatement(
-			                                                      JsExpression.Assign(
-			                                                          JsExpression.Member(
-			                                                              JsExpression.This,
-			                                                              _knockoutProperties[p]),
-			                                                          JsExpression.Invocation(
-			                                                              JsExpression.Member(
-			                                                                  JsExpression.Identifier("ko"),
-			                                                                  "observable"),
-			                                                              _runtimeLibrary.Default(p.ReturnType, this)))))
+			var initializers = knockoutProperties.Select(p => (JsStatement)JsExpression.Assign(
+			                                                                   JsExpression.Member(
+			                                                                       JsExpression.This,
+			                                                                       _knockoutProperties[p]),
+			                                                                   JsExpression.Invocation(
+			                                                                       JsExpression.Member(
+			                                                                           JsExpression.Identifier("ko"),
+			                                                                           "observable"),
+			                                                                       _runtimeLibrary.Default(p.ReturnType, this))))
 			                                     .ToList();
 
 			var result = c.Clone();
