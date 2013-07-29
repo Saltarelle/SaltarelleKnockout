@@ -19,7 +19,35 @@ namespace KnockoutApi {
     [IgnoreNamespace]
     public sealed class ObservableArray<T> : Observable<T[]> {
 
-        private ObservableArray() {
+        /// <summary>
+        /// Creates an empty observable array.
+        /// </summary>        
+        [InlineCode("ko.observableArray()")]
+        public ObservableArray() {
+        }
+
+        /// <summary>
+        /// Creates an observable array with some initial items.
+        /// </summary>
+        /// <param name="initialItems">A sequence of initial items.</param>        
+        [InlineCode("ko.observableArray({initialItems})")]
+        public ObservableArray(T[] initialItems) {
+        }
+
+        /// <summary>
+        /// Creates an observable array with some initial items.
+        /// </summary>
+        /// <param name="initialItems">A sequence of initial items.</param>        
+        [InlineCode("ko.observableArray({initialItems})")]
+        public ObservableArray(List<T> initialItems) {
+        }
+
+        /// <summary>
+        /// Creates an observable array with some initial items.
+        /// </summary>
+        /// <param name="initialItems">A sequence of initial items.</param>        
+        [InlineCode("ko.observableArray({$System.Script}.arrayFromEnumerable({initialItems}))")]
+        public ObservableArray(IEnumerable<T> initialItems) {
         }
 
         /// <summary>
@@ -165,6 +193,15 @@ namespace KnockoutApi {
         /// <param name="howmany">Required. The number of elements to be removed. If set to 0, no elements will be removed</param>
         /// <param name="args">Optional. The new element(s) to be added to the array</param>
         public void Splice(int index, int howmany, params T[] args) {
+        }
+
+        /// <summary>
+        /// Native Javascript Splice Function
+        /// Modifies the Existing Sequence
+        /// </summary>
+        /// <param name="index">Required. An integer that specifies at what position to add/remove elements</param>
+        /// <param name="howmany">Required. The number of elements to be removed. If set to 0, no elements will be removed</param>
+        public void Splice(int index, int howmany) {
         }
 
         /// <summary>

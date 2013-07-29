@@ -106,6 +106,30 @@ namespace KnockoutApi {
         }
 
         /// <summary>
+        /// If the provided value is an observable, returns the current value without creating a dependency, otherwise just pass it through.
+        /// </summary>
+        /// <param name="value">The value to peek.</param>
+        public static T PeekObservable<T>(T value) {
+            return default(T);
+        }
+
+        /// <summary>
+        /// If the provided value is an observable, returns the current value without creating a dependency, otherwise just pass it through.
+        /// </summary>
+        /// <param name="value">The value to peek.</param>
+        public static T PeekObservable<T>(Observable<T> value) { 
+            return default(T); 
+        }
+
+        /// <summary>
+        /// If the provided value is an observable, returns the current value without creating a dependency, otherwise just pass it through.
+        /// </summary>
+        /// <param name="value">The value to peek.</param>
+        public static T[] PeekObservable<T>(ObservableArray<T> value) {
+            return null;
+        }
+
+        /// <summary>
         /// Parses the Json String into a native javascript object
         /// </summary>
         /// <param name="jsonString"></param>

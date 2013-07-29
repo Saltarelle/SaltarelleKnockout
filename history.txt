@@ -1,3 +1,10 @@
+2.2.4
+Use assembly version x.0.0.0 in order to get less dependency versioning problems.
+Updated compiler and runtime to 2.3.0
+Added mapping options (#3, #4)
+Added ObservableArray.Splice without array argument
+Added constructors for Observable, ComputedObservable and ObservableArray (these contructors will call the appropriate ko.xx methods)
+
 2.2.3
 Work with compiler 2.2.0
 

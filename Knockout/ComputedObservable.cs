@@ -17,7 +17,20 @@ namespace KnockoutApi {
     [IgnoreNamespace]
     public sealed class ComputedObservable<T> : Subscribable<T> {
 
-        private ComputedObservable() {
+        /// <summary>
+        /// Creates an observable with a value computed from one or more other values.
+        /// </summary>        
+        /// <param name="function">A function to compute the value.</param> 
+        [InlineCode("ko.computed({function})")]       
+        public ComputedObservable(Func<T> function) {            
+        }
+
+        /// <summary>
+        /// Creates an observable with a value computed from one or more other values.
+        /// </summary>        
+        /// <param name="options">Options for the dependent observable.</param>
+        [InlineCode("ko.computed({options})")]
+        public ComputedObservable(ComputedOptions<T> options) {            
         }
 
         /// <summary>
