@@ -30,7 +30,7 @@ namespace Knockout.Tests {
 		}
 
 		private JsClass Compile(string source, IMetadataImporter prev = null, IRuntimeLibrary runtimeLibrary = null, bool expectErrors = false) {
-			var pc = PreparedCompilation.CreateCompilation(new[] { new MockSourceFile("File1.cs", source) }, new[] { Files.Mscorlib, Files.Web, Files.Knockout }, new List<string>());
+			var pc = PreparedCompilation.CreateCompilation("Test", new[] { new MockSourceFile("File1.cs", source) }, new[] { Files.Mscorlib, Files.Web, Files.Knockout }, new List<string>());
 			_compilation = pc.Compilation;
 
 			_errorReporter = new MockErrorReporter(!expectErrors);
