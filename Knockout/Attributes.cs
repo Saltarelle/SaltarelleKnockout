@@ -1,9 +1,11 @@
 using System;
 using System.Runtime.CompilerServices;
 #if PLUGIN
+using Microsoft.CodeAnalysis;
 using Saltarelle.Compiler;
 using CoreLib.Plugin;
-using ICSharpCode.NRefactory.TypeSystem;
+using Saltarelle.Compiler.Roslyn;
+
 #endif
 
 namespace KnockoutApi {
@@ -16,15 +18,15 @@ namespace KnockoutApi {
 #endif
 
 #if PLUGIN
-		public override void ApplyTo(IEntity entity, IAttributeStore attributeStore, IErrorReporter errorReporter) {
-			foreach (var p in ((ITypeDefinition)entity).GetProperties(options: GetMemberOptions.IgnoreInheritedMembers)) {
+		public override void ApplyTo(ISymbol entity, IAttributeStore attributeStore, IErrorReporter errorReporter) {
+			foreach (var p in ((INamedTypeSymbol)entity).GetProperties()) {
 				if (attributeStore.AttributesFor(p).HasAttribute<KnockoutPropertyAttribute>())
 					continue;
 				if (p.IsStatic)
 					continue;
 
-				if (MetadataUtils.IsAutoProperty(p) == false) {
-					errorReporter.Message(MessageSeverity.Error, 8001, "The property {0} is not an auto-property so because its containing type has a [KnockoutModelAttribute], the property must be decorated with [KnockoutPropertyAttribute(false)]", p.FullName);
+				if (Knockout.Plugin.Utils.IsAutoProperty(p) == false) {
+					errorReporter.Message(DiagnosticSeverity.Error, "CS8001", "The property {0} is not an auto-property so because its containing type has a [KnockoutModelAttribute], the property must be decorated with [KnockoutPropertyAttribute(false)]", p.FullyQualifiedName());
 					continue;
 				}
 
@@ -52,27 +54,27 @@ namespace KnockoutApi {
 		}
 
 #if PLUGIN
-		public override void ApplyTo(IEntity entity, IAttributeStore attributeStore, IErrorReporter errorReporter) {
+		public override void ApplyTo(ISymbol entity, IAttributeStore attributeStore, IErrorReporter errorReporter) {
 			if (IsKnockoutProperty) {
-				var p = (IProperty)entity;
+				var p = (IPropertySymbol)entity;
 
 				if (p.IsStatic) {
-					errorReporter.Message(MessageSeverity.Error, 8000, "The property {0} cannot have a [KnockoutPropertyAttribute] because it is static", p.FullName);
+					errorReporter.Message(DiagnosticSeverity.Error, "CS8000", "The property {0} cannot have a [KnockoutPropertyAttribute] because it is static", p.FullyQualifiedName());
 				}
-				else if (MetadataUtils.IsAutoProperty(p) == false) {
-					errorReporter.Message(MessageSeverity.Error, 8001, "The property {0} cannot be a knockout property because it is not an auto-property", p.FullName);
+				else if (Knockout.Plugin.Utils.IsAutoProperty(p) == false) {
+					errorReporter.Message(DiagnosticSeverity.Error, "CS8001", "The property {0} cannot be a knockout property because it is not an auto-property", p.FullyQualifiedName());
 				}
 				else {
-					MakeKnockoutProperty((IProperty)entity, attributeStore);
+					MakeKnockoutProperty((IPropertySymbol)entity, attributeStore);
 				}
 			}
 		}
 
-		public static void MakeKnockoutProperty(IProperty property, IAttributeStore attributeStore) {
-			var getter = attributeStore.AttributesFor(property.Getter);
+		public static void MakeKnockoutProperty(IPropertySymbol property, IAttributeStore attributeStore) {
+			var getter = attributeStore.AttributesFor(property.GetMethod);
 			getter.ReplaceAttribute(new ScriptNameAttribute("{owner}"));
 			getter.ReplaceAttribute(new DontGenerateAttribute());
-			var setter = attributeStore.AttributesFor(property.Setter);
+			var setter = attributeStore.AttributesFor(property.SetMethod);
 			setter.ReplaceAttribute(new ScriptNameAttribute("{owner}"));
 			setter.ReplaceAttribute(new DontGenerateAttribute());
 			var prop = attributeStore.AttributesFor(property);

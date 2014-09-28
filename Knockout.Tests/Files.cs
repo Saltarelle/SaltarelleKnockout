@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using ICSharpCode.NRefactory.TypeSystem;
+using Microsoft.CodeAnalysis;
 
 namespace Knockout.Tests {
 	internal class Files {
@@ -8,13 +8,13 @@ namespace Knockout.Tests {
 		public static readonly string WebPath = Path.GetFullPath("Saltarelle.Web.dll");
 		public static readonly string KnockoutPath = Path.GetFullPath("Saltarelle.Knockout.dll");
 
-		private static readonly Lazy<IAssemblyReference> _mscorlibLazy = new Lazy<IAssemblyReference>(() => new IkvmLoader() { IncludeInternalMembers = true }.LoadAssemblyFile(MscorlibPath));
-		internal static IAssemblyReference Mscorlib { get { return _mscorlibLazy.Value; } }
+		private static readonly Lazy<MetadataReference> _mscorlibLazy = new Lazy<MetadataReference>(() => new MetadataFileReference(MscorlibPath));
+		internal static MetadataReference Mscorlib { get { return _mscorlibLazy.Value; } }
 
-		private static readonly Lazy<IAssemblyReference> _webLazy = new Lazy<IAssemblyReference>(() => new IkvmLoader() { IncludeInternalMembers = true }.LoadAssemblyFile(WebPath));
-		internal static IAssemblyReference Web { get { return _webLazy.Value; } }
+		private static readonly Lazy<MetadataReference> _webLazy = new Lazy<MetadataReference>(() => new MetadataFileReference(WebPath));
+		internal static MetadataReference Web { get { return _webLazy.Value; } }
 
-		private static readonly Lazy<IAssemblyReference> _knockoutLazy = new Lazy<IAssemblyReference>(() => new IkvmLoader() { IncludeInternalMembers = true }.LoadAssemblyFile(KnockoutPath));
-		internal static IAssemblyReference Knockout { get { return _knockoutLazy.Value; } }
+		private static readonly Lazy<MetadataReference> _knockoutLazy = new Lazy<MetadataReference>(() => new MetadataFileReference(KnockoutPath));
+		internal static MetadataReference Knockout { get { return _knockoutLazy.Value; } }
 	}
 }

@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using ICSharpCode.NRefactory;
-using ICSharpCode.NRefactory.TypeSystem;
+using Microsoft.CodeAnalysis;
 using Saltarelle.Compiler;
 
 namespace Knockout.Tests {
 	public class Message {
-		public MessageSeverity Severity { get; private set; }
-		public int Code { get; private set; }
-		public DomRegion Region { get; private set; }
+		public DiagnosticSeverity Severity { get; private set; }
+		public string Code { get; private set; }
+		public Location Location { get; private set; }
 		public string Format { get; private set; }
 		public object[] Args { get; private set; }
 		public string FormattedMessage { get; private set; }
 
-		public Message(MessageSeverity severity, int code, DomRegion region, string format, params object[] args) {
+		public Message(DiagnosticSeverity severity, string code, Location location, string format, params object[] args) {
 			Severity = severity;
 			Code = code;
-			Region = region;
+			Location = location;
 			Format = format;
 			Args = args;
 			FormattedMessage = Args.Length > 0 ? string.Format(Format, Args) : Format;
@@ -34,7 +33,7 @@ namespace Knockout.Tests {
 		public bool Equals(Message other) {
 			if (ReferenceEquals(null, other)) return false;
 			if (ReferenceEquals(this, other)) return true;
-			return Equals(other.Severity, Severity) && other.Code == Code && Equals(other.Region, Region) && Equals(other.Format, Format) && ArgsEqual(other.Args, Args);
+			return Equals(other.Severity, Severity) && other.Code == Code && Equals(other.Location, Location) && Equals(other.Format, Format) && ArgsEqual(other.Args, Args);
 		}
 
 		public override bool Equals(object obj) {
@@ -47,8 +46,8 @@ namespace Knockout.Tests {
 		public override int GetHashCode() {
 			unchecked {
 				int result = Severity.GetHashCode();
-				result = (result*397) ^ Code;
-				result = (result*397) ^ Region.GetHashCode();
+				result = (result*397) ^ Code.GetHashCode();
+				result = (result*397) ^ Location.GetHashCode();
 				result = (result*397) ^ (Format != null ? Format.GetHashCode() : 0);
 				return result;
 			}
@@ -68,14 +67,17 @@ namespace Knockout.Tests {
         	AllMessages   = new List<Message>();
         }
 
-		public DomRegion Region { get; set; }
+		public Location Location { get; set; }
 
-		public void Message(MessageSeverity severity, int code, string message, params object[] args) {
-			var msg = new Message(severity, code, Region, message, args);
+		public void Message(DiagnosticSeverity severity, string code, string message, params object[] args) {
+			var msg = new Message(severity, code, Location, message, args);
 			string s = msg.ToString();	// Ensure this does not throw an exception
 			AllMessages.Add(msg);
 			if (_logToConsole)
 				Console.WriteLine(s);
+		}
+
+		public void AdditionalLocation(Location location) {
 		}
 
 		public void InternalError(string text) {

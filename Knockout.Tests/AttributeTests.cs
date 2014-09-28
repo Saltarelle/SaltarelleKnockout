@@ -5,16 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using CoreLib.Plugin;
-using ICSharpCode.NRefactory.CSharp;
-using ICSharpCode.NRefactory.CSharp.TypeSystem;
-using ICSharpCode.NRefactory.TypeSystem;
 using KnockoutApi;
-using Moq;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using NUnit.Framework;
 using Saltarelle.Compiler;
-using Saltarelle.Compiler.Compiler;
-using Saltarelle.Compiler.JSModel.Expressions;
 using Saltarelle.Compiler.ScriptSemantics;
+using Saltarelle.Compiler.Roslyn;
 
 namespace Knockout.Tests {
 	[TestFixture]
@@ -24,29 +21,18 @@ namespace Knockout.Tests {
 		private MockErrorReporter _errorReporter;
 		private IMetadataImporter _metadata;
 		private ReadOnlyCollection<Message> _allErrors;
-		private ICompilation _compilation;
+		private Compilation _compilation;
 
 		private void Prepare(string source, IRuntimeLibrary runtimeLibrary = null, bool expectErrors = false, bool MinimizeNames = false) {
-			IProjectContent project = new CSharpProjectContent();
-			var parser = new CSharpParser();
-
-			using (var rdr = new StringReader(source)) {
-				var pf = new CSharpUnresolvedFile() { FileName = "File.cs" };
-				var syntaxTree = parser.Parse(rdr, pf.FileName);
-				syntaxTree.AcceptVisitor(new TypeSystemConvertVisitor(pf));
-				project = project.AddOrUpdateFiles(pf);
-			}
-			project = project.AddAssemblyReferences(new[] { Files.Mscorlib, Files.Web, Files.Knockout });
-
-			_compilation = project.CreateCompilation();
+			var syntaxTree = CSharpSyntaxTree.ParseText(source);
+			_compilation = CSharpCompilation.Create("Test", new[] { syntaxTree }, new[] { Files.Mscorlib, Files.Web, Files.Knockout }, new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
 			var options = new CompilerOptions { MinimizeScript = MinimizeNames };
 			_errorReporter = new MockErrorReporter(!expectErrors);
-			var s = new AttributeStore(_compilation, _errorReporter);
-			s.RunAttributeCode();
-			_metadata = new MetadataImporter(_errorReporter, _compilation, s, options);
+			var s = new AttributeStore(_compilation, _errorReporter, new IAutomaticMetadataAttributeApplier[0]);
+			_metadata = new MetadataImporter(new ReferenceMetadataImporter(_errorReporter), _errorReporter, _compilation, s, options);
 
-			_metadata.Prepare(_compilation.GetAllTypeDefinitions());
+			_metadata.Prepare(_compilation.Assembly.GetAllTypes());
 
 			_allErrors = _errorReporter.AllMessages.ToList().AsReadOnly();
 			if (expectErrors) {
@@ -60,11 +46,11 @@ namespace Knockout.Tests {
 		}
 
 		private PropertyScriptSemantics FindProperty(string name) {
-			return _metadata.GetPropertySemantics(_compilation.FindType(new FullTypeName("C")).GetProperties().Single(p => p.Name == name));
+			return _metadata.GetPropertySemantics(_compilation.GetTypeByMetadataName("C").GetProperties().Single(p => p.Name == name));
 		}
 
 		private MethodScriptSemantics FindMethod(string name) {
-			return _metadata.GetMethodSemantics(_compilation.FindType(new FullTypeName("C")).GetMethods().Single(p => p.Name == name));
+			return _metadata.GetMethodSemantics(_compilation.GetTypeByMetadataName("C").GetNonConstructorNonAccessorMethods().Single(p => p.Name == name));
 		}
 
 		[Test]

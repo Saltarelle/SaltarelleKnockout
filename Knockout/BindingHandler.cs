@@ -62,13 +62,13 @@ namespace KnockoutApi {
         /// Performs one time initialization for a binding.
         /// </summary>
         [IntrinsicProperty]
-        private BindingHandlerMethod Init { get; set; }
+        public BindingHandlerMethod Init { get; private set; }
 
         /// <summary>
         /// Invoked whenever an observable associated with this binding changes.
         /// </summary>
         [IntrinsicProperty]
-        private BindingHandlerMethod Update { get; set; }
+        public BindingHandlerMethod Update { get; private set; }
 
         [ObjectLiteral]
         public InlineBindingHandler(BindingHandlerMethod init, BindingHandlerMethod update) {
